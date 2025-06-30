@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize'
 import createUserEntity from './user.js'
 import createSubscriptionEntity from './subscription.js'
+import createPostEntity from './post.js'
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
@@ -10,6 +11,7 @@ const sequelize = new Sequelize({
 
 const User = createUserEntity(sequelize, Sequelize)
 const Subscription = createSubscriptionEntity(sequelize, Sequelize)
+const Post = createPostEntity(sequelize, Sequelize)
 
 Subscription.belongsTo(User, {
   foreignKey: 'subscribedId',
@@ -31,6 +33,16 @@ User.hasMany(Subscription, {
   as: 'subscriptions'
 })
 
+Post.belongsTo(User, {
+  foreignKey: 'user_id',
+  as: 'author'
+})
+
+User.hasMany(Post, {
+  foreignKey: 'user_id',
+  as: 'posts'
+})
+
 try {
   await sequelize.sync()
 } catch (err) {
@@ -40,5 +52,6 @@ try {
 export default {
   sequelize,
   User,
-  Subscription
+  Subscription,
+  Post
 }

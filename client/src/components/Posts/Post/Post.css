@@ -1,0 +1,21 @@
+.post-container {
+  display: flex;
+  border: 1px solid black;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.post-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete {
+  background-color: red;
+}
+
+.delete:hover {
+  background-color: brown;
+}

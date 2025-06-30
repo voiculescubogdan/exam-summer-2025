@@ -5,6 +5,9 @@ import AppContext from '../../state/AppContext'
 
 import Search from '../Search'
 import Subscriptions from '../Subscriptions'
+import Posts from '../Posts/Posts'
+import PostHandler from '../PostHandler/PostHandler'
+import AddPost from '../AddPost/AddPost'
 
 const Dashboard = () => {
   const { currentUser } = useContext(AppContext)
@@ -30,6 +33,12 @@ const Dashboard = () => {
           >
             Subscriptions
           </Link>
+          <Link
+            to='/posts'
+            className={location.pathname === '/posts' ? 'active-link' : ''}
+          >
+            Posts
+          </Link>
         </div>
 
         <div className='sidebar-footer'>
@@ -43,6 +52,9 @@ const Dashboard = () => {
         <Routes>
           <Route path="/" element={<Search />} />
           <Route path="/subscriptions" element={<Subscriptions />} />
+          <Route path="/posts" element={<Posts />} />
+          <Route path="/posts/edit-post/:postid" element={<PostHandler />} />
+          <Route path="/posts/add-post" element={<AddPost />} />
         </Routes>
       </div>
     </div>

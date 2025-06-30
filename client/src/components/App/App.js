@@ -11,6 +11,7 @@ import SignupForm from '../SignupForm'
 import UserStore from '../../state/stores/UserStore'
 import UserSearchStore from '../../state/stores/UserSearchStore'
 import SubscriptionStore from '../../state/stores/SubscriptionStore'
+import PostStore from '../../state/stores/PostStore'
 import Notificator from '../Notificator'
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
   const userStore = useRef(new UserStore())
   const userSearchStore = useRef(new UserSearchStore())
   const subscriptionStore = useRef(new SubscriptionStore())
+  const postStore = useRef(new PostStore());
 
   useEffect(() => {
     const loginSuccessSubscription = userStore.current.emitter.addListener('LOGIN_SUCCESS', () => {
@@ -49,7 +51,8 @@ const App = () => {
     <AppContext.Provider value={{
       currentUser: userStore.current,
       users: userSearchStore.current,
-      subscriptions: subscriptionStore.current
+      subscriptions: subscriptionStore.current,
+      posts: postStore.current
     }}
     >
       <Notificator />

@@ -73,8 +73,59 @@ const getSubscriptions = async (req, res, next) => {
   }
 }
 
+const sortSubscriptions = async(req, res, next) => {
+  try {
+    const sortType = req.query.querySort;
+    const queryValue = req.query.queryValue;
+    const sort = sortType === 'ASC' ? 'ASC' : 'DESC'
+
+    const subscriptions = await models.Subscription.findAll({
+      where: {
+        subscriberId: req.user.id
+      },
+      attributes: ['id'],
+      include: [{
+        model: models.User,
+        as: 'subscribed',
+        attributes: ['id', 'username', 'name', 'email']
+      }],
+      order: [[{model: models.User, as: 'subscribed'}, queryValue, sort]]
+    })
+
+    res.status(200).json({ subscriptions })
+  } catch(err) {
+    next(err);
+  }
+}
+
+const filterSubscriptions = async(req, res, next) => {
+  try {
+    const queryValue = req.query.queryValue;
+
+    const subscriptions = await models.Subscription.findAll({
+      where: {
+        subscriberId: req.user.id
+      },
+      include: [{
+        model: models.User,
+        as: 'subscribed',
+        attributes: ['id', 'username', 'name', 'email'],
+        where: {
+          name: queryValue
+        }
+      }]
+    })
+
+    res.status(200).json({ subscriptions })
+  } catch(err) {
+    next(err);
+  }
+}
+
 export default {
   subscribe,
   unsubscribe,
-  getSubscriptions
+  getSubscriptions,
+  sortSubscriptions,
+  filterSubscriptions,
 } 
